@@ -28,6 +28,12 @@ const main = async () => {
 
   // Call 'getTotalWaves' again to check if it changed
   waveCount = await waveContract.getTotalWaves()
+
+  // Simulate random Address interacting with contract
+  waveTxn = await waveContract.connect(randomPerson).wave();
+  await waveTxn.wait();
+
+  waveCount = await waveContract.getTotalWaves();
 };
 
 const runMain  = async () => {
