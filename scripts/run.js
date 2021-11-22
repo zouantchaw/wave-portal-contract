@@ -21,17 +21,21 @@ const main = async () => {
   let waveCount;
   // Call 'getTotalWaves' function on contract, store # of total waves in waveCount
   waveCount = await waveContract.getTotalWaves();
+  console.log(waveCount.toNumber());
 
   // Call 'wave' function on contract, store transaction # in waveTxn
-  let waveTxn = await waveContract.wave();
-  await waveTxn.wait();
+  let waveTxn = await waveContract.wave('Test message!');
+  await waveTxn.wait(); // Wait for transaction to be mined
 
   // Call 'getTotalWaves' again to check if it changed
   waveCount = await waveContract.getTotalWaves()
 
   // Simulate random Address interacting with contract
-  waveTxn = await waveContract.connect(randomPerson).wave();
+  waveTxn = await waveContract.connect(randomPerson).wave('Test message #2!');
   await waveTxn.wait();
+
+  let allWaves = await waveContract.getAllWaves();
+  console.log('All waves:', allWaves)
 
   waveCount = await waveContract.getTotalWaves();
 };
