@@ -33,6 +33,20 @@ contract WavePortal {
 
         // emit NewWave event after wave function is invoked
         emit NewWave(msg.sender, block.timestamp, _message);
+
+        // Initialize prize amount
+        uint256 prizeAmount = 0.0001 ether;
+        // require checks to see if a particular condition is true
+        // Checks if balance of contract is bigger than prize amount
+        require(
+            prizeAmount <= address(this).balance,
+            "Trying to withdraw more money than the contract has"
+        );
+
+        // Line that actaully "sends money"
+        (bool success, ) = (msg.sender).call{value: prizeAmount}("");
+        // Check if transaction was a success
+        require(success, "Failed to withdraw money from contract.");
     }
 
     // getAllWaves when invoked returns struct array and waves
