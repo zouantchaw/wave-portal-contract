@@ -1,5 +1,3 @@
-const { hexStripZeros } = require("@ethersproject/bytes")
-
 const main = async () => {
   const [deployer] = await hre.ethers.getSigners();
   const accountBalance = await deployer.getBalance();
@@ -11,7 +9,7 @@ const main = async () => {
   const portal = await Token.deploy();
   await portal.deployed();
 
-  console.log('WavePortal Address: ', portal.address);
+  console.log('WavePortal address: ', portal.address);
 };
 
 const runMain = async () => {
