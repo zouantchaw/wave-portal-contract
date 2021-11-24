@@ -10,13 +10,20 @@ const main = async () => {
   // Compiles contract & generates necessary files(under artifacts dir) to work with contract
   const waveContractFactory = await hre.ethers.getContractFactory('WavePortal');
   // Hardhat creates a local Ethereum network specifically for this contract
-  const waveContract = await waveContractFactory.deploy();
+  const waveContract = await waveContractFactory.deploy({
+    // Fund contract with ETH from contract deployers wallet
+    value: hre.ethers.utils.parseEther('0.1')
+  });
   // Wait for contract to deploy on local blockchain, 'constructor' runs on deploy
   await waveContract.deployed();
 
   console.log("Contract deployed to:", waveContract.address);
   // Prints address of person deploying contract 
   console.log("Contract deployed by:", owner.address);
+
+  // get contract balance
+  let contractBalance = await hre.ethers.provider.getBalance(waveContract.address);
+  console.log('Contract balance:', hre.ethers.utils.formatEther(contractBalance));
 
   let waveCount;
   // Call 'getTotalWaves' function on contract, store # of total waves in waveCount
@@ -26,6 +33,10 @@ const main = async () => {
   // Call 'wave' function on contract, store transaction # in waveTxn
   let waveTxn = await waveContract.wave('Test message!');
   await waveTxn.wait(); // Wait for transaction to be mined
+
+  // Get contract balance
+  contractBalance = await hre.ethers.provider.getBalance(waveContract.address)
+  console.log('Contract balance:', hre.ethers.utils.formatEther(contractBalance));
 
   // Call 'getTotalWaves' again to check if it changed
   waveCount = await waveContract.getTotalWaves()

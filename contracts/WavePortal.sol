@@ -20,7 +20,8 @@ contract WavePortal {
     // Store all waves ever sent into array
     Wave[] waves;
 
-    constructor() {
+    // payable keyword allows contract to distribute funds
+    constructor() payable {
         console.log("Hello from WavePortal");
     }
 
