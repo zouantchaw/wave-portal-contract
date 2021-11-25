@@ -34,6 +34,9 @@ const main = async () => {
   let waveTxn = await waveContract.wave('Test message!');
   await waveTxn.wait(); // Wait for transaction to be mined
 
+  let waveTxn2 = await waveContract.wave('Doble trouble');
+  await waveTxn2.wait();
+
   // Get contract balance
   contractBalance = await hre.ethers.provider.getBalance(waveContract.address)
   console.log('Contract balance:', hre.ethers.utils.formatEther(contractBalance));
